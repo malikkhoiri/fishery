@@ -1,7 +1,10 @@
 package fishery
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 )
@@ -50,4 +53,52 @@ func urlParse(baseUrl string) (string, error) {
 	}
 
 	return url.String(), nil
+}
+
+func (fc *Client) get(sheetName string, s Search, t interface{}) (err error) {
+	search, err := json.Marshal(s)
+
+	if err != nil {
+		return
+	}
+
+	url := fmt.Sprintf("%s/%s/%s?search=%s", fc.baseUrl, fc.apiKey, sheetName, string(search))
+	err = fc.call(http.MethodGet, url, nil, t)
+
+	return
+}
+
+func (fc *Client) call(method, url string, body io.Reader, response interface{}) (err error) {
+	req, err := http.NewRequest(method, url, body)
+	req.Header.Set("Content-Type", "application/json")
+
+	if err != nil {
+		return
+	}
+
+	res, err := fc.Client.Do(req)
+
+	if err != nil {
+		return
+	}
+
+	defer res.Body.Close()
+
+	resBody, err := ioutil.ReadAll(res.Body)
+
+	if err != nil {
+		return
+	}
+
+	if response == nil {
+		return
+	}
+
+	err = json.Unmarshal(resBody, response)
+
+	if err != nil {
+		return
+	}
+
+	return
 }
