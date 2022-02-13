@@ -1,5 +1,7 @@
 package fishery
 
+import "fmt"
+
 type Sheet struct {
 	client *Client
 	name   string
@@ -18,6 +20,10 @@ func (s *Sheet) GetByID(id string) (record *Record, err error) {
 
 	if err != nil {
 		return
+	}
+
+	if len(records) == 0 {
+		return nil, fmt.Errorf("data not found")
 	}
 
 	record = &records[0]
