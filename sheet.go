@@ -22,6 +22,16 @@ const (
 	OptionSize = "option_size"
 )
 
+func (s *Sheet) GetAll() (records *Records, err error) {
+	err = s.client.getAll(s.name, &records)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 func (s *Sheet) GetByID(id string) (record *Record, err error) {
 	search := Search{"uuid": id}
 	records := make(Records, 0)

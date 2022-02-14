@@ -56,6 +56,13 @@ func urlParse(baseUrl string) (string, error) {
 	return url.String(), nil
 }
 
+func (fc *Client) getAll(sheetName, t interface{}) (err error) {
+	url := fmt.Sprintf("%s/%s/%s", fc.baseUrl, fc.apiKey, sheetName)
+	err = fc.call(http.MethodGet, url, nil, t)
+
+	return
+}
+
 func (fc *Client) get(sheetName string, s, t interface{}) (err error) {
 	search, err := json.Marshal(s)
 
