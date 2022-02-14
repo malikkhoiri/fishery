@@ -76,3 +76,14 @@ func (s *Sheet) DeleteRecords(id string) (response *DeleteResponse, err error) {
 
 	return
 }
+
+func (s *Sheet) GetAllByCommodity(commodity string) (records *Records, err error) {
+	search := Search{"komoditas": commodity}
+	err = s.client.get(s.name, search, &records)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
