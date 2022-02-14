@@ -145,3 +145,13 @@ func (s *Sheet) GetMostRecords() (result string, err error) {
 
 	return records.getMostRecords(), nil
 }
+
+func (s *Sheet) GetLatestRecords() (records *Records, err error) {
+	err = s.client.getAll(s.name, &records)
+
+	if err != nil {
+		return
+	}
+
+	return records.getLatestRecords(), nil
+}

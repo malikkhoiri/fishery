@@ -3,6 +3,7 @@ package fishery
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
 	"time"
 )
 
@@ -82,4 +83,26 @@ func (rs *Records) getMostRecords() (result string) {
 	}
 
 	return f
+}
+
+func (rs Records) getLatestRecords() (records *Records) {
+	sort.Sort(Records(rs))
+	newRecords := rs[:10]
+	return &newRecords
+}
+
+func (rs Records) Len() int {
+	return len(rs)
+}
+
+func (rs Records) Less(i, j int) bool {
+	ti, _ := rs[i].Timestamp.Int64()
+	rsi := time.Unix(ti, 0)
+	tj, _ := rs[j].Timestamp.Int64()
+	rsj := time.Unix(tj, 0)
+	return rsi.After(rsj)
+}
+
+func (rs Records) Swap(i, j int) {
+	rs[i], rs[j] = rs[j], rs[i]
 }
