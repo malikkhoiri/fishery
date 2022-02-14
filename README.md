@@ -71,14 +71,11 @@ res, err := sheet.GetAllByCommodity(commodity)
 // Get all record by area
 // area := &FilterArea{}
 res, err := sheet.GetAllByArea(area)
-GetMaxPriceByWeek
-GetMaxPriceByCommudity
 ```
 ### Get Max Price by Weeks
 ```go
 // Get max price by weeks
 res, err := sheet.GetAllByArea(week)
-GetMaxPriceByCommudity
 ```
 ### Get Max Price by Commodity
 ```go
