@@ -43,3 +43,28 @@ func (rs *Records) getMaxPriceByWeek(week int) (result *Record, err error) {
 
 	return
 }
+
+func (rs *Records) getMaxPriceByCommodity(commodity string) (result *Record, err error) {
+	var maxPrice int64 = 0
+	var c string
+	for key := range *rs {
+		c = (*rs)[key].Commodity
+
+		if c != commodity {
+			continue
+		}
+
+		p, _ := (*rs)[key].Price.Int64()
+
+		if p > maxPrice {
+			maxPrice = p
+			result = &(*rs)[key]
+		}
+	}
+
+	if result == nil {
+		return result, fmt.Errorf("no record for '%s' commodity", commodity)
+	}
+
+	return
+}

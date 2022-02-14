@@ -123,3 +123,14 @@ func (s *Sheet) GetMaxPriceByWeek(week int) (record *Record, err error) {
 
 	return records.getMaxPriceByWeek(week)
 }
+
+func (s *Sheet) GetMaxPriceByCommudity(commodity string) (record *Record, err error) {
+	records := &Records{}
+	err = s.client.getAll(s.name, records)
+
+	if err != nil {
+		return
+	}
+
+	return records.getMaxPriceByCommodity(commodity)
+}
