@@ -112,3 +112,14 @@ func (s *Sheet) GetAllByArea(fa FilterArea) (records *Records, err error) {
 
 	return
 }
+
+func (s *Sheet) GetMaxPriceByWeek(week int) (record *Record, err error) {
+	records := &Records{}
+	err = s.client.getAll(s.name, records)
+
+	if err != nil {
+		return
+	}
+
+	return records.getMaxPriceByWeek(week)
+}
