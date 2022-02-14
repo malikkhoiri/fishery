@@ -15,7 +15,7 @@
 ```
 ### Installation
 ```
-go get https://github.com/malikkhoiri/fishery
+go get -u github.com/malikkhoiri/fishery
 ```
 ### Usage
 #### Initalize
