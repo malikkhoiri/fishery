@@ -1,6 +1,7 @@
 package fishery
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -64,6 +65,19 @@ func (fc *Client) get(sheetName string, s Search, t interface{}) (err error) {
 
 	url := fmt.Sprintf("%s/%s/%s?search=%s", fc.baseUrl, fc.apiKey, sheetName, string(search))
 	err = fc.call(http.MethodGet, url, nil, t)
+
+	return
+}
+
+func (fc *Client) add(sheetName, data, t interface{}) (err error) {
+	body, err := json.Marshal(data)
+
+	if err != nil {
+		return
+	}
+
+	url := fmt.Sprintf("%s/%s/%s", fc.baseUrl, fc.apiKey, sheetName)
+	err = fc.call(http.MethodPost, url, bytes.NewReader(body), t)
 
 	return
 }
