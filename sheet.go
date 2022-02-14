@@ -134,3 +134,14 @@ func (s *Sheet) GetMaxPriceByCommudity(commodity string) (record *Record, err er
 
 	return records.getMaxPriceByCommodity(commodity)
 }
+
+func (s *Sheet) GetMostRecords() (result string, err error) {
+	records := &Records{}
+	err = s.client.getAll(s.name, records)
+
+	if err != nil {
+		return
+	}
+
+	return records.getMostRecords(), nil
+}

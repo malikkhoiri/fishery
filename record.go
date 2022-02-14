@@ -68,3 +68,18 @@ func (rs *Records) getMaxPriceByCommodity(commodity string) (result *Record, err
 
 	return
 }
+
+func (rs *Records) getMostRecords() (result string) {
+	m := map[string]int{}
+	var maxCount int
+	var f string
+	for _, a := range *rs {
+		m[a.Commodity]++
+		if m[a.Commodity] > maxCount {
+			maxCount = m[a.Commodity]
+			f = a.Commodity
+		}
+	}
+
+	return f
+}
