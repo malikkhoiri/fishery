@@ -11,6 +11,11 @@ type Sheet struct {
 	name   string
 }
 
+type FilterArea struct {
+	ProvinceArea string `json:"area_provinsi,omitempty"`
+	CityArea     string `json:"area_kota,omitempty"`
+}
+
 const (
 	List       = "list"
 	OptionArea = "option_area"
@@ -80,6 +85,16 @@ func (s *Sheet) DeleteRecords(id string) (response *DeleteResponse, err error) {
 func (s *Sheet) GetAllByCommodity(commodity string) (records *Records, err error) {
 	search := Search{"komoditas": commodity}
 	err = s.client.get(s.name, search, &records)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func (s *Sheet) GetAllByArea(fa FilterArea) (records *Records, err error) {
+	err = s.client.get(s.name, fa, &records)
 
 	if err != nil {
 		return

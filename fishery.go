@@ -56,7 +56,7 @@ func urlParse(baseUrl string) (string, error) {
 	return url.String(), nil
 }
 
-func (fc *Client) get(sheetName string, s Search, t interface{}) (err error) {
+func (fc *Client) get(sheetName string, s, t interface{}) (err error) {
 	search, err := json.Marshal(s)
 
 	if err != nil {
