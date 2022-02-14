@@ -82,6 +82,19 @@ func (fc *Client) add(sheetName, data, t interface{}) (err error) {
 	return
 }
 
+func (fc *Client) update(sheetName, data, t interface{}) (err error) {
+	body, err := json.Marshal(data)
+
+	if err != nil {
+		return
+	}
+
+	url := fmt.Sprintf("%s/%s/%s", fc.baseUrl, fc.apiKey, sheetName)
+	err = fc.call(http.MethodPut, url, bytes.NewReader(body), t)
+
+	return
+}
+
 func (fc *Client) call(method, url string, body io.Reader, response interface{}) (err error) {
 	req, err := http.NewRequest(method, url, body)
 	req.Header.Set("Content-Type", "application/json")
