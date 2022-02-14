@@ -7,3 +7,7 @@ type AddResponse struct {
 type UpdateResponse struct {
 	TotalUpdatedRows int64 `json:"totalUpdatedRows"`
 }
+
+type DeleteResponse struct {
+	ClearedRowsCount int64 `json:"clearedRowsCount"`
+}

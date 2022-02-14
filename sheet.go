@@ -62,3 +62,17 @@ func (s *Sheet) UpdateRecords(record *Record) (response *UpdateResponse, err err
 
 	return
 }
+
+func (s *Sheet) DeleteRecords(id string) (response *DeleteResponse, err error) {
+	reqData := &DeleteRequest{
+		Condition: map[string]interface{}{"uuid": id},
+	}
+
+	err = s.client.delete(s.name, reqData, &response)
+
+	if err != nil {
+		return
+	}
+
+	return
+}
