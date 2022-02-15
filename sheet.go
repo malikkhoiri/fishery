@@ -2,6 +2,7 @@ package fishery
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/google/uuid"
 )
@@ -154,4 +155,34 @@ func (s *Sheet) GetLatestRecords() (records *Records, err error) {
 	}
 
 	return records.getLatestRecords(), nil
+}
+
+func (s *Sheet) GetAllByPrice(from, to string) (records *Records, err error) {
+	err = s.client.getAll(s.name, &records)
+
+	if err != nil {
+		return
+	}
+
+	priceFrom, err := strconv.Atoi(from)
+
+	if err != nil {
+		return
+	}
+
+	priceTo, err := strconv.Atoi(from)
+
+	if err != nil {
+		return
+	}
+
+	if priceFrom > priceTo {
+		return records, fmt.Errorf("range number must be from small to big")
+	}
+
+	if err != nil {
+		return
+	}
+
+	return records.getRangePrice(int64(priceFrom), int64(priceTo)), nil
 }

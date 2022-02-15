@@ -85,6 +85,21 @@ func (rs *Records) getMostRecords() (result string) {
 	return f
 }
 
+func (rs *Records) getRangePrice(from, to int64) (records *Records) {
+	newRecords := make(Records, 0)
+
+	for key := range *rs {
+		price, _ := (*rs)[key].Price.Int64()
+		fmt.Println(price)
+		if price < from && price > to {
+			continue
+		}
+		newRecords = append(newRecords, (*rs)[key])
+	}
+
+	return &newRecords
+}
+
 func (rs Records) getLatestRecords() (records *Records) {
 	sort.Sort(Records(rs))
 	newRecords := rs[:10]
