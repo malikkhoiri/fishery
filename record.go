@@ -90,8 +90,7 @@ func (rs *Records) getRangePrice(from, to int64) (records *Records) {
 
 	for key := range *rs {
 		price, _ := (*rs)[key].Price.Int64()
-		fmt.Println(price)
-		if price < from && price > to {
+		if price < from || price > to {
 			continue
 		}
 		newRecords = append(newRecords, (*rs)[key])

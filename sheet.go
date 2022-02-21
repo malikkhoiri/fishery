@@ -170,7 +170,7 @@ func (s *Sheet) GetAllByPrice(from, to string) (records *Records, err error) {
 		return
 	}
 
-	priceTo, err := strconv.Atoi(from)
+	priceTo, err := strconv.Atoi(to)
 
 	if err != nil {
 		return
