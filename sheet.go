@@ -2,6 +2,7 @@ package fishery
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 
 	"github.com/google/uuid"
@@ -15,6 +16,13 @@ type Sheet struct {
 type FilterArea struct {
 	ProvinceArea string `json:"area_provinsi,omitempty"`
 	CityArea     string `json:"area_kota,omitempty"`
+}
+
+func (fa *FilterArea) QueryEscape() FilterArea {
+	return FilterArea{
+		ProvinceArea: url.QueryEscape(fa.ProvinceArea),
+		CityArea:     url.QueryEscape(fa.CityArea),
+	}
 }
 
 const (
@@ -34,7 +42,7 @@ func (s *Sheet) GetAll() (records *Records, err error) {
 }
 
 func (s *Sheet) GetByID(id string) (record *Record, err error) {
-	search := Search{"uuid": id}
+	search := Search{"uuid": url.QueryEscape(id)}
 	records := make(Records, 0)
 	err = s.client.get(s.name, search, &records)
 
@@ -94,7 +102,7 @@ func (s *Sheet) DeleteRecords(id string) (response *DeleteResponse, err error) {
 }
 
 func (s *Sheet) GetAllByCommodity(commodity string) (records *Records, err error) {
-	search := Search{"komoditas": commodity}
+	search := Search{"komoditas": url.QueryEscape(commodity)}
 	err = s.client.get(s.name, search, &records)
 
 	if err != nil {
@@ -105,7 +113,7 @@ func (s *Sheet) GetAllByCommodity(commodity string) (records *Records, err error
 }
 
 func (s *Sheet) GetAllByArea(fa FilterArea) (records *Records, err error) {
-	err = s.client.get(s.name, fa, &records)
+	err = s.client.get(s.name, fa.QueryEscape(), &records)
 
 	if err != nil {
 		return
